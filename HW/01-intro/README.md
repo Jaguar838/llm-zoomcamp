@@ -1,18 +1,16 @@
-# Module 1: Introduction
- 
-In this module, we will learn what LLM and RAG are and
-implement a simple RAG pipeline to answer questions about 
-the FAQ Documents from our Zoomcamp courses
+# Модуль 1: Вступ
 
-What we will do: 
+У цьому модулі ми дізнаємося, що таке LLM і RAG, а також реалізуємо простий RAG конвеєр для відповіді на запитання щодо FAQ документів з наших Zoomcamp курсів.
 
-* Index Zoomcamp FAQ documents
-    * DE Zoomcamp: https://docs.google.com/document/d/19bnYs80DwuUimHM65UV3sylsCn2j1vziPOwzBwQrebw/edit
-    * ML Zoomcamp: https://docs.google.com/document/d/1LpPanc33QJJ6BSsyxVg-pWNMplal84TdZtq10naIhD8/edit
-    * MLOps Zoomcamp: https://docs.google.com/document/d/12TlBfhIiKtyBv8RnsoJR6F72bkPDGEvPOItJIxaEzE0/edit
-* Create a Q&A system for answering questions about these documents 
+Що ми будемо робити:
 
-## 1.1 Introduction to LLM and RAG
+* Індексація документів FAQ Zoomcamp:
+  * DE Zoomcamp: https://docs.google.com/document/d/19bnYs80DwuUimHM65UV3sylsCn2j1vziPOwzBwQrebw/edit
+  * ML Zoomcamp: https://docs.google.com/document/d/1LpPanc33QJJ6BSsyxVg-pWNMplal84TdZtq10naIhD8/edit
+  * MLOps Zoomcamp: https://docs.google.com/document/d/12TlBfhIiKtyBv8RnsoJR6F72bkPDGEvPOItJIxaEzE0/edit
+* Створення системи Q&A для відповіді на запитання щодо цих документів
+
+## 1.1 Вступ до LLM і RAG
 
 <a href="https://www.youtube.com/watch?v=Q75JgLEXMsM&list=PL3MmuxUbc_hIB4fSqLy_0AfTjVLpgjV3R">
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/Q75JgLEXMsM">
@@ -20,82 +18,74 @@ What we will do:
 
 * LLM
 * RAG
-* RAG architecture
-* Course outcome
+* Архітектура RAG
+* Результат курсу
 
-
-## 1.2 Preparing the Environment
+## 1.2 Підготовка середовища
 
 <a href="https://www.youtube.com/watch?v=ozCpmkbJNJE&list=PL3MmuxUbc_hIB4fSqLy_0AfTjVLpgjV3R">
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/ozCpmkbJNJE">
 </a>
 
-* Installing libraries
-* Alternative: installing anaconda or miniconda
+* Встановлення бібліотек
+* Альтернатива: встановлення Anaconda або Miniconda
 
 ```bash
 pip install tqdm notebook==7.1.2 openai elasticsearch pandas scikit-learn
 ```
 
-## 1.3 Retrieval
+## 1.3 Пошук
 
 <a href="https://www.youtube.com/watch?v=olvem333Bqo&list=PL3MmuxUbc_hIB4fSqLy_0AfTjVLpgjV3R">
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/olvem333Bqo">
 </a>
 
-* We will use the search engine we build in the [build-your-own-search-engine workshop](https://github.com/alexeygrigorev/build-your-own-search-engine): [minsearch](https://github.com/alexeygrigorev/minsearch)
-* Indexing the documents
-* Peforming the search
+* Ми будемо використовувати пошукову систему, яку створили в [майстерні зі створення власної пошукової системи](https://github.com/alexeygrigorev/build-your-own-search-engine): [minsearch](https://github.com/alexeygrigorev/minsearch)
+* Індексація документів
+* Виконання пошуку
 
-
-## 1.4 Generation with OpenAI
+## 1.4 Генерація з OpenAI
 
 <a href="https://www.youtube.com/watch?v=qz316T3U49Q&list=PL3MmuxUbc_hIB4fSqLy_0AfTjVLpgjV3R">
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/qz316T3U49Q">
 </a>
 
-* Invoking OpenAI API
-* Building the prompt
-* Getting the answer
+* Виклик OpenAI API
+* Створення промпта
+* Отримання відповіді
 
+Якщо ви не хочете використовувати сервіс, ви можете запустити LLM локально. Дивіться [модуль 2](../02-open-source/) для деталей.
 
-If you don't want to use a service, you can run an LLM locally
-refer to [module 2](../02-open-source/) for more details.
+Зокрема, перевірте "2.7 Ollama - Запуск LLM на CPU" - він може працювати з OpenAI API, тому для того, щоб приклад з 1.4 працював локально, вам потрібно лише змінити кілька рядків коду.
 
-In particular, check "2.7 Ollama - Running LLMs on a CPU" - 
-it can work with OpenAI API, so to make the example from 1.4 
-work locally, you only need to change a few lines of code.
-
-
-## 1.4.2 OpenAI API Alternatives
+## 1.4.2 Альтернативи OpenAI API
 
 <a href="https://www.youtube.com/watch?v=HObjFso2UJE&list=PL3MmuxUbc_hIB4fSqLy_0AfTjVLpgjV3R">
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/HObjFso2UJE">
 </a>
 
-[Open AI Alternatives](open-ai-alternatives.md)
+[Альтернативи OpenAI](open-ai-alternatives.md)
 
-
-## 1.5 Cleaned RAG flow
+## 1.5 Очищений потік RAG
 
 <a href="https://www.youtube.com/watch?v=vkTiVwwch6A&list=PL3MmuxUbc_hIB4fSqLy_0AfTjVLpgjV3R">
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/vkTiVwwch6A">
 </a>
 
-* Cleaning the code we wrote so far
-* Making it modular
+* Очищення коду, який ми написали досі
+* Створення модульності
 
-## 1.6 Searching with ElasticSearch
+## 1.6 Пошук за допомогою ElasticSearch
 
 <a href="https://www.youtube.com/watch?v=1lgbR5wMvsI&list=PL3MmuxUbc_hIB4fSqLy_0AfTjVLpgjV3R">
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/1lgbR5wMvsI">
 </a>
 
-* Run ElasticSearch with Docker
-* Index the documents
-* Replace MinSearch with ElasticSearch
+* Запуск ElasticSearch за допомогою Docker
+* Індексація документів
+* Замінити MinSearch на ElasticSearch
 
-Running ElasticSearch:
+Запуск ElasticSearch:
 
 ```bash
 docker run -it \
@@ -108,7 +98,7 @@ docker run -it \
     docker.elastic.co/elasticsearch/elasticsearch:8.4.3
 ```
 
-Index settings:
+Налаштування індексації:
 
 ```python
 {
@@ -127,7 +117,7 @@ Index settings:
 }
 ```
 
-Query:
+Запит:
 
 ```python
 {
@@ -151,9 +141,7 @@ Query:
 }
 ```
 
+# Нотатки
 
-
-# Notes
-
-* Replace it with a link
-* Did you take notes? Add them above this line (Send a PR with *links* to your notes)
+* Замість цього додайте посилання
+* Ви робили нотатки? Додайте їх вище цієї лінії (надішліть PR з *посиланнями* на ваші нотатки)
