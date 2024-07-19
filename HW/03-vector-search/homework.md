@@ -255,7 +255,7 @@ print(f'Hitrate: {hitrate}')
 
 Який ID документа з найвищим балом?
 
-Q5:
+Q5: ee58a693
 
 ```python
 from elasticsearch import Elasticsearch, helpers
@@ -369,7 +369,7 @@ def calculate_hitrate_elasticsearch(ground_truth, num_results=5):
 hitrate_elastic = calculate_hitrate_elasticsearch(ground_truth, num_results=5)
 print(f'Hitrate для Elasticsearch: {hitrate_elastic}')
 ```
-
+Q6: 0.93
 ## Надішліть результати
 
 - Надішліть свої результати тут: https://courses.datatalks.club/llm-zoomcamp-2024/homework/hw3
