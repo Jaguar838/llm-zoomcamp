@@ -1,116 +1,92 @@
-# LLM Zoomcamp
-
+# LLM Zoomcamp 
 <p align="center">
   <img src="images/llm-zoomcamp.jpg"  />
 </p>
 
-LLM Zoomcamp - безкоштовний онлайн курс про реальні застосування LLM. За 10 тижнів ви навчитеся створювати AI-бота, який може відповідати на запитання про вашу базу знань.
+
+
+LLM Zoomcamp - a free online course about real-life applications of LLMs. In 10 weeks you will learn how to build an AI system that answers questions about your 
+knowledge base.
+
 
 <p align="center">
   <a href="https://airtable.com/appPPxkgYLH06Mvbw/shr7WtxHEPXxaui0Q"><img src="https://user-images.githubusercontent.com/875246/185755203-17945fd1-6b64-46f2-8377-1011dcb1a444.png" height="50" /></a>
 </p>
 
-- Зареєструйтеся в [DataTalks.Club's Slack](https://datatalks.club/slack.html)
-- Приєднуйтеся до каналу [`#course-llm-zoomcamp`](https://app.slack.com/client/T01ATQK62F8/C06TEGTGM3J)
-- Приєднуйтеся до [каналу Telegram з оголошеннями](https://t.me/llm_zoomcamp)
-- Відео публікуються на [YouTube каналі DataTalks.Club](https://www.youtube.com/c/DataTalksClub) в [плейлисті курсу](https://www.youtube.com/playlist?list=PL3MmuxUbc_hKiIVNf7DeEt_tGjypOYtKV)
-- [Часті технічні запитання](https://docs.google.com/document/d/1m2KexowAXTmexfC5rVTCSnaShvdUQ8Ag2IEiwBDHxN0/edit?usp=sharing)
-- [Календар курсу](https://calendar.google.com/calendar/?cid=NjkxOThkOGFhZmUyZmQwMzZjNDFkNmE2ZDIyNjE5YjdiMmQyZDVjZTYzOGMxMzQyZmNkYjE5Y2VkNDYxOTUxY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t)
-- [Матеріали для 2024 року](cohorts/2024/)
+- Give us a star to support the course!
+- Register in [DataTalks.Club's Slack](https://datatalks.club/slack.html)
+- Join the [`#course-llm-zoomcamp`](https://app.slack.com/client/T01ATQK62F8/C06TEGTGM3J) channel
+- Join the [course Telegram channel with announcements](https://t.me/llm_zoomcamp)
+- The videos are published on [DataTalks.Club's YouTube channel](https://www.youtube.com/c/DataTalksClub) in [the course playlist](https://www.youtube.com/playlist?list=PL3MmuxUbc_hKiIVNf7DeEt_tGjypOYtKV)
+- [Frequently asked technical questions](https://docs.google.com/document/d/1m2KexowAXTmexfC5rVTCSnaShvdUQ8Ag2IEiwBDHxN0/edit?usp=sharing)
+- [Course Calendar](https://calendar.google.com/calendar/?cid=NjkxOThkOGFhZmUyZmQwMzZjNDFkNmE2ZDIyNjE5YjdiMmQyZDVjZTYzOGMxMzQyZmNkYjE5Y2VkNDYxOTUxY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t)
 
-Ми розглянемо такі теми, як LLM і RAG.
 
-Дата початку: 17 червня
+## 2024 cohort 
 
-Поставте нам зірочку, щоб підтримати ініціативу!
+- Start date: June 17
+- [Materials specific to 2024 cohort](cohorts/2024/)
+ 
 
-Попередні вимоги:
+## Pre-requisites
 
-- Володіння програмуванням та Python
-- Володіння командним рядком
-- Docker
-- Не потрібно попереднього досвіду в AI або ML
+* Comfortable with programming and Python
+* Comfortable with command line
+* Docker
+* No previous exposure to AI or ML is required
 
-## Програма курсу
 
-### Передкурсові воркшопи
+## Syllabus
 
 We encourage [Learning in Public](learning-in-public.md)
 
 ### Pre-course workshops
 
-Вступ
+Implement a search engine: [Video](https://www.youtube.com/watch?v=nMrGK5QgPVE), [code](https://github.com/alexeygrigorev/build-your-own-search-engine)
 
-- Створення простої системи Q&A
-- Відео: https://www.youtube.com/watch?v=q-p36Ak6YI8
-- Код: https://github.com/alexeygrigorev/llm-rag-workshop
+### 1. [Introduction to LLMs and RAG](01-intro/)
 
-Реалізація пошукової системи
+* LLMs and RAG
+* Preparing the environment 
+* Retrieval and the basics of search
+* OpenAI API
+* Simple RAG with Open AI
+* Text search with Elasticsearch
 
-- Відео: https://www.youtube.com/watch?v=nMrGK5QgPVE
-- Код: https://github.com/alexeygrigorev/build-your-own-search-engine
+### 2. [Open-source LLMs](02-open-source/)
 
-### [Вступ до LLM і RAG](01-intro/)
+* Getting an environment with a GPU
+* Open-source models from HuggingFace Hub
+* Running LLMs on a CPU with Ollama
+* Creating a simple UI with Streamlit 
 
-- LLM і RAG
-- Підготовка середовища
-- Пошук і основи пошуку
-- OpenAI API
+### 3. [Vector databases](03-vector-search/)
 
-### [Відкриті LLM і самостійний хостинг LLM](02-open-source/)
+* Vector search
+* Creating and indexing embeddings
+* Vector search with Elasticsearch
+* Offline evaluation of retrieval
 
-- Простий RAG з відкритими LLM
+### [Workshop: dlt](cohorts/2024/workshops/dlt.md)
 
-### [Векторні бази даних і методи пошуку](03-vector-search/)
 
-- Вбудовані моделі
-- Векторний пошук
-- Додавання векторів до RAG
-- Simple RAG with Open AI
-- Text search with Elasticsearch
+### 4. [Evaluation and monitoring](04-monitoring/)
 
-### [Open-source LLMs](02-open-source/)
+* Offline evaluation of RAG
+* Cosine and LLM-as-a-Judge metrics 
+* Tracking chat history and user feedback
+* Creating dashboards with Grafana for visualization
 
-- Getting an environment with a GPU
-- Open-source models from HuggingFace Hub
-- Running LLMs on a CPU with Ollama
-- Creating a simple UI with Streamlit
+### 5. [LLM orchestration and ingestion](05-orchestration/)
 
-### [Vector databases](03-vector-search/)
+* Ingesting data with Mage
 
-- Vector search
-- Creating and indexing embeddings
-- Vector search with Elasticsearch
 
-### [Воркшоп: dlt](cohorts/2024/workshops/dlt.md)
+### 6. [Best practices](06-best-practices/)
 
-### [Оркестрація LLM і конвеєри інгестії](04-orchestration/)
-
-- Інгестія даних за допомогою Mage
-
-### [Моніторинг і запобіжні заходи](05-monitoring/)
-
-- Моніторинг з використанням ground-truth
-- Метрики (RAGAs)
-- Візуалізація з Grafana
-- Моніторинг чатів
-- Запобіжні заходи
-
-### [LLM orchestration and ingestion pipelines](05-orchestration/)
-
-- Ingesting data with Mage
-
-### [Поради та хитрощі для вдосконалених систем RAG](06-best-practices/)
-
-- Найкращі практики
+* Best practices
 
 ### LLM Zoomcamp 2024 Competition
-
-### Змагання
-
-TBA
-
-### [Практичний проект](project.md)
 
 [More details](cohorts/2024/competition/)
 
@@ -120,25 +96,25 @@ TBA
   <a href="https://airtable.com/appPPxkgYLH06Mvbw/shr7WtxHEPXxaui0Q"><img src="https://user-images.githubusercontent.com/875246/185755203-17945fd1-6b64-46f2-8377-1011dcb1a444.png" height="50" /></a>
 </p>
 
-## Інструктори
+## Instructors
 
-- [Олексій Григор'єв](https://linkedin.com/in/agrigorev/)
-- [Магдалена Кун](https://www.linkedin.com/in/magdalenakuhn/)
+- [Alexey Grigorev](https://linkedin.com/in/agrigorev/)
+- [Magdalena Kuhn](https://www.linkedin.com/in/magdalenakuhn/)
 - [Balaji Dhamodharan](https://www.linkedin.com/in/balaji-dhamodharan-91b45615/)
 
 ## Asking questions
 
-The best way to get support is to use [DataTalks.Club's Slack](https://datatalks.club/slack.html).
-Join the [`#course-llm-zoomcamp`](https://app.slack.com/client/T01ATQK62F8/C06TEGTGM3J).
+The best way to get support is to use [DataTalks.Club's Slack](https://datatalks.club/slack.html). Join the [`#course-llm-zoomcamp`](https://app.slack.com/client/T01ATQK62F8/C06TEGTGM3J).
 
 To make discussions in Slack more organized:
 
-- Follow [these recommendations](asking-questions.md) when asking for help
-- Read the [DataTalks.Club community guidelines](https://datatalks.club/slack/guidelines.html)
+* Follow [these recommendations](asking-questions.md) when asking for help
+* Read the [DataTalks.Club community guidelines](https://datatalks.club/slack/guidelines.html)
 
-## Підтримка та партнери
 
-Дякуємо спонсорам курсу за можливість проведення цього курсу
+## Supporters and partners
+
+Thanks to the course sponsors for making it possible to run this course
 
 <p align="center">
   <a href="https://mage.ai/">
@@ -158,4 +134,5 @@ To make discussions in Slack more organized:
   </a>
 </p>
 
-Бажаєте підтримати наш курс і нашу спільноту? Будь ласка, зв'яжіться з [alexey@datatalks.club](alexey@datatalks.club)
+
+Do you want to support our course and our community? Please reach out to [alexey@datatalks.club](alexey@datatalks.club)
