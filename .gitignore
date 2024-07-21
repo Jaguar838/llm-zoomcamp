@@ -1,3 +1,4 @@
+
 # Environments
 .env
 .venv
@@ -19,3 +20,8 @@ esdata
 .idea
 
 02-open-source/ollama_files/
+
+.ipynb_checkpoints/
+__pycache__/
+.venv
+.envrc
