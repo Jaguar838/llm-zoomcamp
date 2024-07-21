@@ -1,3 +1,26 @@
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+
+.ipynb_checkpoints
+_pycache_
+_state
+snapshot_cache
+nodes
+nodes.lock
+Text Document.txt
+esdata
+.idea
+
+02-open-source/ollama_files/
+
 .ipynb_checkpoints/
 __pycache__/
 .venv

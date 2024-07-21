@@ -94,5 +94,3 @@ class Index:
         top_docs = [self.docs[i] for i in top_indices if scores[i] > 0]
 
         return top_docs
-
-
