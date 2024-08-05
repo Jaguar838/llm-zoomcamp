@@ -52,6 +52,8 @@ answer_llm = df.iloc[0].answer_llm
 * -0.02
 * 0.21
 
+- Q1: First value of the resulting vector: -0.42
+
 ## Питання 2. Обчислення скалярного добутку
 
 Тепер для кожної пари відповідей створимо векторні представлення та обчислимо скалярний добуток між ними
@@ -64,6 +66,8 @@ answer_llm = df.iloc[0].answer_llm
 * 31.67
 * 41.67
 * 51.67
+
+- Q2: 75th percentile of the dot product scores: 31.67
 
 ## Питання 3. Обчислення косинуса
 
@@ -94,6 +98,8 @@ v_norm = v / norm
 * 0.73
 * 0.83
 * 0.93
+
+- Q3: 75th percentile of the cosine similarities: 0.84
 
 ## Питання 4. ROUGE
 
@@ -132,6 +138,8 @@ scores = rouge_scorer.get_scores(r['answer_llm'], r['answer_orig'])[0]
 - 0.55
 - 0.65
 
+- Q4: f1 score for `rouge-1`: 0.45
+
 ## Питання 5. Середня оцінка ROUGE
 
 Давайте обчислимо середнє значення між `rouge-1`, `rouge-2` та `rouge-l` для того ж запису з питання 4
@@ -140,6 +148,8 @@ scores = rouge_scorer.get_scores(r['answer_llm'], r['answer_orig'])[0]
 - 0.45
 - 0.55
 - 0.65
+
+- Q5: Average ROUGE score for the record: 0.35
 
 ## Питання 6. Середня оцінка ROUGE для всіх точок даних
 
@@ -154,9 +164,11 @@ rouge_avg = (rouge_1 + rouge_2 + rouge_l) / 3
 
 І створимо з них датафрейм
 
-Яке середнє значення `rouge_l` серед усіх записів?
+Яке середнє значення `rouge_2` серед усіх записів?
 
 - 0.10
 - 0.20
 - 0.30
 - 0.40
+
+- Q6: Average "rouge_2" score across all records: 0.21
