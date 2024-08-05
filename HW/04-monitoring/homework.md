@@ -3,10 +3,10 @@
 У цьому домашньому завданні ми оцінюватимемо якість нашої системи RAG.
 
 > Можливо, ваші відповіді не будуть точно співпадати. Якщо це так, виберіть найближчу.
-Рішення:
+> Рішення:
 
-* Відео: TBA
-* Нотатник: TBA
+- Відео: TBA
+- Нотатник: TBA
 
 ## Отримання даних
 
@@ -34,6 +34,7 @@ df = df.iloc[:300]
 [бібліотеки Sentence Transformer](https://www.sbert.net/docs/sentence_transformer/pretrained_models.html#model-overview)
 
 > Примітка: це не та ж модель, що в домашньому завданні 3
+
 ```bash
 from sentence_transformers import SentenceTransformer
 embedding_model = SentenceTransformer(model_name)
@@ -47,10 +48,10 @@ answer_llm = df.iloc[0].answer_llm
 
 Яке перше значення отриманого вектора?
 
-* -0.42
-* -0.22
-* -0.02
-* 0.21
+- -0.42
+- -0.22
+- -0.02
+- 0.21
 
 - Q1: First value of the resulting vector: -0.42
 
@@ -62,12 +63,12 @@ answer_llm = df.iloc[0].answer_llm
 
 Який 75-й перцентиль оцінок?
 
-* 21.67
-* 31.67
-* 41.67
-* 51.67
+- 21.67
+- 31.67
+- 41.67
+- 51.67
 
-- Q2: 75th percentile of the dot product scores: 31.67
+* Q2: 75th percentile of the dot product scores: 31.67
 
 ## Питання 3. Обчислення косинуса
 
@@ -77,8 +78,8 @@ answer_llm = df.iloc[0].answer_llm
 
 Для цього ми
 
-* Обчислимо норму вектора
-* Поділимо кожен елемент на цю норму
+- Обчислимо норму вектора
+- Поділимо кожен елемент на цю норму
 
 Отже, для вектора `v`, це буде `v / ||v||`
 
@@ -89,21 +90,21 @@ norm = np.sqrt((v * v).sum())
 v_norm = v / norm
 ```
 
-Давайте вставимо це у функцію, а потім обчислимо скалярний добуток 
+Давайте вставимо це у функцію, а потім обчислимо скалярний добуток
 між нормалізованими векторами. Це дасть нам косинусну схожість.
 
 Який 75-й перцентиль косинусної схожості в оцінках?
 
-* 0.63
-* 0.73
-* 0.83
-* 0.93
+- 0.63
+- 0.73
+- 0.83
+- 0.93
 
-- Q3: 75th percentile of the cosine similarities: 0.84
+* Q3: 75th percentile of the cosine similarities: 0.84
 
 ## Питання 4. ROUGE
 
-Тепер ми розглянемо альтернативну метрику - оцінку ROUGE.  
+Тепер ми розглянемо альтернативну метрику - оцінку ROUGE.
 
 Це набір метрик, який порівнює дві відповіді на основі збігу n-грам, послідовностей слів та пар слів.
 
@@ -127,9 +128,9 @@ scores = rouge_scorer.get_scores(r['answer_llm'], r['answer_orig'])[0]
 
 Існують три оцінки: `rouge-1`, `rouge-2` та `rouge-l`, і точність, повнота та F1 оцінка для кожної з них.
 
-* `rouge-1` - збіг уніграмів,
-* `rouge-2` - біграмів,
-* `rouge-l` - найдовша спільна підпослідовність
+- `rouge-1` - збіг уніграмів,
+- `rouge-2` - біграмів,
+- `rouge-l` - найдовша спільна підпослідовність
 
 Яка F оцінка для `rouge-1`?
 
@@ -138,7 +139,7 @@ scores = rouge_scorer.get_scores(r['answer_llm'], r['answer_orig'])[0]
 - 0.55
 - 0.65
 
-- Q4: f1 score for `rouge-1`: 0.45
+* Q4: f1 score for `rouge-1`: 0.45
 
 ## Питання 5. Середня оцінка ROUGE
 
@@ -149,7 +150,7 @@ scores = rouge_scorer.get_scores(r['answer_llm'], r['answer_orig'])[0]
 - 0.55
 - 0.65
 
-- Q5: Average ROUGE score for the record: 0.35
+* Q5: Average ROUGE score for the record: 0.35
 
 ## Питання 6. Середня оцінка ROUGE для всіх точок даних
 
@@ -171,4 +172,4 @@ rouge_avg = (rouge_1 + rouge_2 + rouge_l) / 3
 - 0.30
 - 0.40
 
-- Q6: Average "rouge_2" score across all records: 0.21
+* Q6: Average "rouge_2" score across all records: 0.21
