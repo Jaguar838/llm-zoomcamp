@@ -1,128 +1,143 @@
-
 import json
-
+import random
 from IPython.display import display, HTML
 import markdown
 
+# === Мапа країн до столиць ===
+country_to_capital = {
+    "німеччина": "berlin",
+    "germany": "berlin",
+    "україна": "kyiv",
+    "ukraine": "kyiv",
+    "польща": "warsaw",
+    "poland": "warsaw"
+}
+
+# === Нормалізація назв міст ===
+def normalize_city_name(name):
+    name = name.strip().lower()
+    mapping = {
+        "kiev": "kyiv",
+        "кієв": "kyiv",
+        "київ": "kyiv",
+        "львів": "lviv",
+        "lwow": "lviv"
+    }
+    return mapping.get(name, name)
+
+# === Клас Tools ===
 class Tools:
     def __init__(self):
-        self.tools = {}
         self.functions = {}
+        self._schemas = {}
 
-    def add_tool(self, function, description):
-        self.tools[function.__name__] = description
+    def add_tool(self, function, schema):
         self.functions[function.__name__] = function
-    
-    def get_tools(self):
-        return list(self.tools.values())
-
-    def function_call(self, tool_call_response):
-        function_name = tool_call_response.name
-        arguments = json.loads(tool_call_response.arguments)
-
-        f = self.functions[function_name]
-        result = f(**arguments)
-
-        return {
-            "type": "function_call_output",
-            "call_id": tool_call_response.call_id,
-            "output": json.dumps(result, indent=2),
+        self._schemas[function.__name__] = {
+            "type": "function",
+            "function": schema
         }
 
+    def get_tools(self):
+        return list(self._schemas.values())
 
-def shorten(text, max_length=50):
-    if len(text) <= max_length:
-        return text
+    def function_call(self, tool_call_response):
+        name = tool_call_response.function.name
+        args = json.loads(tool_call_response.function.arguments)
+        result = self.functions[name](**args)
+        print(f"\n📊 known_weather_data = {known_weather_data}\n")
+        return {
+            "role": "tool",
+            "tool_call_id": tool_call_response.id,
+            "name": name,
+            "content": json.dumps(result, indent=2)
+        }
 
-    return text[:max_length - 3] + "..."
-
-
+# === Інтерфейс ===
 class ChatInterface:
     def input(self):
-        question = input("You:")
-        return question
-    
-    def display(self, message):
-        print(message)
+        return input("You: ")
+
+    def display(self, text):
+        print(text)
 
     def display_function_call(self, entry, result):
-        call_html = f"""
-            <details>
-            <summary>Function call: <tt>{entry.name}({shorten(entry.arguments)})</tt></summary>
-            <div>
-                <b>Call</b>
-                <pre>{entry}</pre>
-            </div>
-            <div>
-                <b>Output</b>
-                <pre>{result['output']}</pre>
-            </div>
-            
-            </details>
-        """
-        display(HTML(call_html))
-
-    def display_response(self, entry):
-        response_html = markdown.markdown(entry.content[0].text)
+        args = entry.function.arguments
         html = f"""
-            <div>
-                <div><b>Assistant:</b></div>
-                <div>{response_html}</div>
-            </div>
+        <details>
+          <summary>Function call: <code>{entry.function.name}({args})</code></summary>
+          <div><b>Result:</b>
+            <pre>{result['content']}</pre>
+          </div>
+        </details>
         """
         display(HTML(html))
 
+    def display_response(self, message):
+        md = markdown.markdown(message.content)
+        html = f"""
+        <div style=\"margin:10px 0\">
+          <b>Assistant:</b>
+          <div>{md}</div>
+        </div>
+        """
+        display(HTML(html))
 
-
+# === Клас ChatAssistant ===
 class ChatAssistant:
-    def __init__(self, tools, developer_prompt, chat_interface, client):
+    def __init__(self, tools, developer_prompt, interface, client):
         self.tools = tools
-        self.developer_prompt = developer_prompt
-        self.chat_interface = chat_interface
+        self.dev_prompt = developer_prompt
+        self.iface = interface
         self.client = client
-    
-    def gpt(self, chat_messages):
-        return self.client.responses.create(
-            model='gpt-4o-mini',
-            input=chat_messages,
-            tools=self.tools.get_tools(),
-        )
+        self.last_city = None
 
+    def llama(self, messages):
+        return self.client.chat.completions.create(
+            model='llama3-8b-8192',
+            messages=messages,
+            tools=self.tools.get_tools(),
+            temperature=0.7,
+            tool_choice="auto"
+        )
 
     def run(self):
         chat_messages = [
-            {"role": "developer", "content": self.developer_prompt},
+            {"role": "system", "content": self.dev_prompt},
         ]
 
-        # Chat loop
+        repeat_limit = 5
+
         while True:
-            question = self.chat_interface.input()
-            if question.strip().lower() == 'stop':  
-                self.chat_interface.display("Chat ended.")
+            question = self.iface.input()
+            if question.strip().lower() in ('stop', 'стоп'):
+                self.iface.display("Chat ended.")
                 break
 
-            message = {"role": "user", "content": question}
-            chat_messages.append(message)
+            chat_messages.append({"role": "user", "content": question})
 
-            while True:  # inner request loop
-                response = self.gpt(chat_messages)
+            for attempt in range(repeat_limit):
+                response = self.llama(chat_messages)
+                msg = response.choices[0].message
+                tool_calls = msg.tool_calls
+                handled = False
 
-                has_messages = False
-
-                for entry in response.output:
-                    chat_messages.append(entry)
-
-                    if entry.type == "function_call":
+                if tool_calls:
+                    for entry in tool_calls:
+                        handled = True
+                        args = json.loads(entry.function.arguments)
+                        if 'city' in args:
+                            self.last_city = args['city']
                         result = self.tools.function_call(entry)
                         chat_messages.append(result)
-                        self.chat_interface.display_function_call(entry, result)
+                        self.iface.display_function_call(entry, result)
 
-                    elif entry.type == "message":
-                        self.chat_interface.display_response(entry)
-                        has_messages = True
-
-                if has_messages:
+                if msg.content:
+                    self.iface.display_response(msg)
                     break
-    
 
-
+                if not handled:
+                    self.iface.display("⚠️ Невідомий формат відповіді.")
+                    break
+            else:
+                self.iface.display("⚠️ Зупинено через надмірну кількість викликів функцій.")
