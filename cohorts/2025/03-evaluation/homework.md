@@ -83,9 +83,12 @@ def evaluate(ground_truth, search_function):
 
 ## Q1. Minsearch text
 
-Now let's evaluate our usual minsearch approach, but tweak
-the parameters. Let's use the following boosting 
-params:
+Now let's evaluate our usual minsearch approach, indexing documents with:
+```python
+text_fields=["question", "section", "text"],
+keyword_fields=["course", "id"]
+```
+but tweak the parameters for search. Let's use the following boosting params:
 
 ```python
 boost = {'question': 1.5, 'section': 0.1}
@@ -265,7 +268,7 @@ Let's fit the vectorizer on all the text data we have:
 pipeline.fit(df_results.answer_llm + ' ' + df_results.answer_orig + ' ' + df_results.question)
 ```
 
-Now use the `transform` methon of the pipeline to create the embeddings and calculate the cosine similarity between each
+Now use the `transform` method of the pipeline to create the embeddings and calculate the cosine similarity between each
 pair.
 
 What's the average cosine?
