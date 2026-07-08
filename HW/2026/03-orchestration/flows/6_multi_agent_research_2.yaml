@@ -1,0 +1,98 @@
+id: 6_multi_agent_comparison_research
+namespace: zoomcamp
+
+description: |
+  Multi-agent comparative analysis with strict prompt-based JSON enforcement.
+  Fixed the 'Unrecognized field responseSchema' validation error.
+
+inputs:
+  - id: company_1
+    type: STRING
+    description: First company to research
+    defaults: kestra.io
+
+  - id: company_2
+    type: STRING
+    description: Second company to research
+    defaults: airflow.apache.org
+
+tasks:
+  - id: analysis
+    type: io.kestra.plugin.ai.agent.AIAgent
+    description: Main analyst agent that orchestrates comparative research
+    configuration:
+      logRequests: false
+      logResponses: false
+      temperature: 0.1 # Низкая температура минимизирует творчество и заставляет модель строго следовать структуре
+    provider:
+      type: io.kestra.plugin.ai.provider.GoogleGemini
+      modelName: gemini-3.5-flash
+      apiKey: "{{ secret('GEMINI_API_KEY') }}"
+    systemMessage: |
+      You are a senior market intelligence analyst. You can use the research tool to gather accurate, up-to-date company data. 
+      Your ONLY output must be a single, valid raw JSON object matching the requested schema.
+      CRITICAL: Never wrap the response in markdown code blocks like ```json ... ```. Do not include any explanations, introduction or text outside the JSON.
+    prompt: |
+      Research and compare these two entities: "{{ inputs.company_1 }}" and "{{ inputs.company_2 }}".
+      Use your research tool to look up details for both.
+
+      Output your findings strictly inside this JSON structure:
+      {
+        "comparison_summary": "string — brief overview comparing both tools",
+        "companies": [
+          {
+            "name": "string — company name",
+            "core_features": ["string — key feature 1", "string — key feature 2"],
+            "pros": ["string — advantage 1"],
+            "cons": ["string — disadvantage 1"]
+          }
+        ],
+        "verdict": "string — recommendation on when to choose company_1 vs company_2"
+      }
+
+      Ensure the "companies" array has exactly two objects. Remember: output ONLY raw JSON text.
+    tools:
+      - type: io.kestra.plugin.ai.tool.AIAgent
+        description: Web research and data gathering
+        configuration:
+          logRequests: false
+          logResponses: false
+        provider:
+          type: io.kestra.plugin.ai.provider.GoogleGemini
+          modelName: gemini-3.5-flash
+          apiKey: "{{ secret('GEMINI_API_KEY') }}"
+        systemMessage: |
+          You are a research assistant that searches the web for factual and up-to-date company information.
+          Look for product features, architecture, use cases, and pros/cons.
+          Return concise factual summaries. Do not format the output.
+        contentRetrievers:
+          - type: io.kestra.plugin.ai.retriever.TavilyWebSearch
+            apiKey: "{{ secret('TAVILY_API_KEY') }}"
+
+  - id: parse_results
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      📊 Competitive Comparison Report
+      =====================================
+
+      Market Overview: 
+      {{ json(outputs.analysis.textOutput | trim).comparison_summary }}
+
+      -------------------------------------
+      {% for comp in json(outputs.analysis.textOutput | trim).companies %}
+      🏢 Company/Project: {{ comp.name }}
+
+      Key Features:
+      {% for feature in comp.core_features %}- {{ feature }}
+      {% endfor %}
+      Pros:
+      {% for pro in comp.pros %}- {{ pro }}
+      {% endfor %}
+      Cons:
+      {% for con in comp.cons %}- {{ con }}
+      {% endfor %}
+      -------------------------------------
+      {% endfor %}
+
+      💡 Final Verdict & Recommendation:
+      {{ json(outputs.analysis.textOutput | trim).verdict }}
