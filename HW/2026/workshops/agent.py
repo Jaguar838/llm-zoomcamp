@@ -64,7 +64,7 @@ class SearchDeps:
 #   - tools are registered with @faq_agent.tool (no manual JSON schema)
 #   - the loop is built into run_sync() — we call it and get the answer back
 
-model = GroqModel('mixtral-8x7b-32768')
+model = GroqModel('openai/gpt-oss-20b')
 
 faq_agent = Agent(
     model,
