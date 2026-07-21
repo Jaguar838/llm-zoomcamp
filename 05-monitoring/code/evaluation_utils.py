@@ -5,11 +5,11 @@ from rag_helper import RAGBase
 
 
 def calc_price(usage):
-    input_price_per_million = 0.75
-    output_price_per_million = 4.50
+    input_price_per_million = 0.59
+    output_price_per_million = 0.79
 
-    input_cost = (usage.input_tokens / 1_000_000) * input_price_per_million
-    output_cost = (usage.output_tokens / 1_000_000) * output_price_per_million
+    input_cost = (usage.prompt_tokens / 1_000_000) * input_price_per_million
+    output_cost = (usage.completion_tokens / 1_000_000) * output_price_per_million
     total_cost = input_cost + output_cost
 
     return {
@@ -29,19 +29,22 @@ def calc_total_price(usages):
     return total_cost
 
 
-def llm_structured(client, instructions, user_prompt, output_type, model="gpt-5.4-mini"):
+def llm_structured(client, instructions, user_prompt, output_type, model="llama-3.3-70b-versatile"):
     messages = [
-        {"role": "developer", "content": instructions},
+        {"role": "system", "content": instructions},
         {"role": "user", "content": user_prompt}
     ]
 
-    response = client.responses.parse(
+    response = client.chat.completions.create(
         model=model,
-        input=messages,
-        text_format=output_type
+        messages=messages,
+        response_format={"type": "json_object"}
     )
 
-    return response.output_parsed, response.usage
+    data = response.choices[0].message.content
+    parsed_data = output_type.model_validate_json(data)
+
+    return parsed_data, response.usage
 
 
 def llm_structured_retry(
@@ -49,7 +52,7 @@ def llm_structured_retry(
     instructions,
     user_prompt,
     output_type,
-    model="gpt-5.4-mini",
+    model="llama-3.3-70b-versatile",
     max_retries=3,
 ):
     for attempt in range(max_retries):

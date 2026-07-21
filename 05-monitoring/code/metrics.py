@@ -21,8 +21,8 @@ class LLMCallRecord:
 
 def calculate_cost(model, usage):
     cost = 0
-    if "gpt-5.4-mini" in model:
-        cost = (usage.input_tokens * 0.15 + usage.output_tokens * 0.60) / 1_000_000
+    if "llama-3.3-70b" in model:
+        cost = (usage.prompt_tokens * 0.59 + usage.completion_tokens * 0.79) / 1_000_000
     return cost
 
 
@@ -37,16 +37,16 @@ class RAGWithMetrics(RAGBase):
         response = self._call_llm(prompt)
         response_time = time.time() - start_time
         self._log_response(prompt, response, response_time)
-        return response.output_text
+        return response.choices[0].message.content
 
     def _call_llm(self, prompt):
         input_messages = [
-            {"role": "developer", "content": self.instructions},
+            {"role": "system", "content": self.instructions},
             {"role": "user", "content": prompt}
         ]
-        response = self.llm_client.responses.create(
+        response = self.llm_client.chat.completions.create(
             model=self.model,
-            input=input_messages
+            messages=input_messages
         )
         return response
 
@@ -58,9 +58,9 @@ class RAGWithMetrics(RAGBase):
             model=self.model,
             prompt=prompt,
             instructions=self.instructions,
-            answer=response.output_text,
-            prompt_tokens=usage.input_tokens,
-            completion_tokens=usage.output_tokens,
+            answer=response.choices[0].message.content,
+            prompt_tokens=usage.prompt_tokens,
+            completion_tokens=usage.completion_tokens,
             total_tokens=usage.total_tokens,
             response_time=response_time,
             cost=cost,

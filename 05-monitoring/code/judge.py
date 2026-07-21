@@ -2,7 +2,7 @@ import json
 
 from pydantic import BaseModel
 from typing import Literal
-from openai import OpenAI
+from groq import Groq
 from dotenv import load_dotenv
 
 from evaluation_utils import llm_structured_retry
@@ -21,6 +21,8 @@ Classify the answer as:
 - RELEVANT: the answer addresses the question
 - PARTLY_RELEVANT: the answer partially addresses the question
 - NON_RELEVANT: the answer does not address the question
+
+The output should be a valid JSON object.
 """.strip()
 
 judge_prompt = """
@@ -31,7 +33,7 @@ Generated Answer: {answer}
 
 def evaluate_relevance(question, answer, client=None):
     if client is None:
-        client = OpenAI()
+        client = Groq()
 
     prompt = judge_prompt.format(
         question=question,

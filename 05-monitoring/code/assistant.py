@@ -1,7 +1,7 @@
 import sys
 
 from dotenv import load_dotenv
-from openai import OpenAI
+from groq import Groq
 
 from ingest import load_faq_data, build_index
 from metrics import RAGWithMetrics
@@ -16,7 +16,7 @@ def create_assistant():
 
     return RAGWithMetrics(
         index=index,
-        llm_client=OpenAI()
+        llm_client=Groq()
     )
 
 if __name__ == "__main__":

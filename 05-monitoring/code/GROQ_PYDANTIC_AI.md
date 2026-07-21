@@ -51,8 +51,7 @@ print(result.data)
 
 *   `llama-3.3-70b-versatile` — Самая мощная модель на данный момент.
 *   `llama-3.1-70b-versatile` — Универсальная модель.
-*   `mixtral-8x7b-32768` — Отличная альтернатива от Mistral.
-*   `llama3-70b-8192` — Быстрая и эффективная.
+*   `openai/gpt-oss-20b` — Быстрая и эффективная.
 
 Полный список доступен в [документации Groq](https://console.groq.com/docs/models).
 
