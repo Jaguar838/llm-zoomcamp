@@ -1,20 +1,3 @@
-"""Starter code for the monitoring homework.
-
-Sets up the text-search RAG from homework 1 and a shared Groq client.
-"""
-
-from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
-
-provider = TracerProvider()
-provider.add_span_processor(
-    SimpleSpanProcessor(ConsoleSpanExporter())
-)
-trace.set_tracer_provider(provider)
-
-tracer = trace.get_tracer("llm-zoomcamp")
-
 from groq import Groq
 
 from gitsource import GithubRepositoryDataReader
